@@ -34,8 +34,8 @@ The main file is the ``etf_analyzer.ipynb`` Jupyter Notebook with a pre-run code
 If you look to reuse the code, and do not have experience on jupyter lab, please refer:
 https://www.dataquest.io/blog/jupyter-notebook-tutorial/
 
-Some of the visualizations have interactions available. To see some of the interactions, and how you can see this analysis on a web environment using Voila Library, you can take a look to [this video](Voila_Recording.mov) in the same folder than this README file.
-``Voila_Recording.mov``
+Some of the visualizations have interactions available. To see some of the interactions, and how you can see this analysis on a web environment using Voila Library, you can take a look to [this video](Voila_Rec.mov) in the same folder than this README file.
+``Voila_Rec.mov``
 
 
 
