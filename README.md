@@ -19,6 +19,7 @@ To see if you have SQLAlchemy, you can use:
 
 ``conda list sqlalchemy``
 
+
 If the package doesn't appear displayed on your terminal, you can install it by using:
 ``pip install SQLAlchemy``
 
