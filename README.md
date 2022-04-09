@@ -2,12 +2,15 @@
 
 Nowadays, ETFs are one of the more common and appreciated financial instruments. This, because of their diversification attibutes, and their low cost characteristics. ETFs are composed by several securities, so it is required to manage multiple security data in order to analyzed their performance.
 
-In this project we build a financial database and web application by using SQL, Python, and the Voila library to analyze an ETF performance. We ewill apply several queries to access the data, as well as construct the ETF and visualize its performance. A video is included to see how simple the Voila Library can be used to export interactive visualization, as well as text, to a web environment.
+In this project we build a financial database and web application by using SQL, Python, and the Voila library to analyze an ETF performance. We will apply several queries to access the data, as well as construct the ETF and visualize its performance. A video is included to see how simple the Voila Library can be used to export interactive visualization, as well as text, to a web environment.
 
 
 ## Technologies
 For the analysis we use a jupyter notebook, Python 3.7, and SQL in a PyViz environment ecosystem for visualizations, and the Voila library to construct a web application from the analysis. We also use the following specific libraries:
-Pandas, and Numpy  for calculations; Hvplot for visualizations; Sqlalchemy for the connection and access to a SQL database; Datetime for the management of datetime data and indexes. 
+* `Pandas`, and `Numpy`  for calculations; 
+* `Hvplot` for visualizations; 
+* `Sqlalchemy` for the connection and access to a SQL database; 
+* `Datetime` for the management of datetime data and indexes. 
 
 
 ## Instalation Guide
@@ -34,8 +37,7 @@ The main file is the ``etf_analyzer.ipynb`` Jupyter Notebook with a pre-run code
 If you look to reuse the code, and do not have experience on jupyter lab, please refer:
 https://www.dataquest.io/blog/jupyter-notebook-tutorial/
 
-Some of the visualizations have interactions available. To see some of the interactions, and how you can see this analysis on a web environment using Voila Library, you can take a look to [this video](Voila_Rec.mov) in the same folder than this README file.
-``Voila_Rec.mov``
+Some of the visualizations have interactions available. To see some of the interactions, and how you can see this analysis on a web environment using Voila Library, you can take a look to [this video](https://www.youtube.com/watch?v=wyaDnec7fGk).
 
 
 
