@@ -5,6 +5,7 @@ import logging
 import pandas as pd
 from typing import List, Dict
 import datetime as dt
+from dateutil.relativedelta import relativedelta
 import sqlalchemy
 import yfinance as yf
 
@@ -50,7 +51,7 @@ def retrieve_yahoo_prices_and_volume(
         end_date = (dt.datetime.now().date() - dt.timedelta(days=1))
     # Set start_date to 5 years before the end_date if not provided
     if start_date is None:
-        start_date = (end_date - dt.timedelta(days=5*365))
+        start_date = end_date - relativedelta(years=5)
 
     try:
         yahoo_data = yf.Ticker(ticker)
@@ -69,8 +70,8 @@ def retrieve_yahoo_prices_and_volume(
         return None
 
 
-def populate_etf_tables_with_market_data(
-    tickers: list, db_connection_string: str, 
+def store_market_data_to_sql(
+    tickers: list, db_connector_string: str, 
     start_date: str = None, end_date: str = None
 ):
     """
@@ -92,7 +93,7 @@ def populate_etf_tables_with_market_data(
         populate_etf_tables(etf_tickers, database_connection_string)
     """
     # Create a connection to the database
-    engine = sqlalchemy.create_engine(db_connection_string)
+    engine = sqlalchemy.create_engine(db_connector_string)
     
     for ticker in tickers:
         logging.debug(f"\nProcessing data for {ticker}...")
@@ -105,13 +106,50 @@ def populate_etf_tables_with_market_data(
             market_data.to_sql(
                 sql_table_name, con=engine, if_exists='replace', index=True)
             logging.debug(f"Data for {ticker} stored in table '{sql_table_name}'")
+            logging.debug(f"\n{market_data.head()}")
         else:
             print(f"No data available for {ticker}")
-    logging.info("Retrieve of Market Data and Update of SQL-Tables Completed")
+    logging.info("Completed retrieval of Market Data and Update of listed SQL-Tables.")
     populated_tables = sqlalchemy.inspect(engine).get_table_names()
     
     return populated_tables
 
 
-def calculate_and_store_returns()
-    pass
+def get_and_store_returns_to_sql(db_connector_string: str, ticker_tables: List[str],
+    daily_ret_col_name: str = None) -> bool:
+    """
+    Add daily returns to a database of market data.
+
+    Args:
+        connector_string (str): Database connection string.
+        ticker_tables (List[str]): List of table names for the tickers in the database.
+        daily_ret_col_name (str): The name of the new daily return column.
+            If set to None it will be 'daily_return'
+
+    Returns:
+        bool: True if the process is successful.
+    """
+
+    engine = sqlalchemy.create_engine(db_connector_string)
+
+    if daily_ret_col_name is None:
+        daily_ret_col_name = 'daily_return'
+        
+    for table in ticker_tables:
+        logging.debug(f"Processing {table} for daily returns")
+
+        # Retrieve the market data from the database
+        query = f"SELECT * FROM {table}"
+        market_data = pd.read_sql(query, con=engine, index_col='time')
+
+        if market_data.empty:
+            logging.warning(f"No data available in table {table}")
+            continue
+
+        market_data[daily_ret_col_name] = market_data['close'].pct_change()
+
+        market_data.to_sql(table, con=engine, if_exists='replace', index=True)
+        logging.debug(f"Daily returns calculations stored for SQL-table {table}")
+
+    logging.info(f"Included/updated daily returns in listed SQL-tables.")
+    return ticker_tables
