@@ -2,3 +2,5 @@ numpy
 pandas
 hvplot
 sqlalchemy
+dateutil
+yfinance
